@@ -25,7 +25,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     
     public lazy var _blurView = TutorialDarkBlurView(frame: CGRect.zero)
     
-    // MARK: Initializer/Deinitializer
+    // MARK: Initializers/Deinitializer
     
     public required init() {
         super.init(nibName: nil, bundle: nil)
@@ -52,19 +52,11 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     
     // MARK: Controller life cycle
     
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
-    open override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
     open override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         _blurView.frame = view.bounds
-        _blurView.setNeedsLayout()
+        _blurView.layoutIfNeeded()
     }
     
     // MARK: Properties
@@ -101,7 +93,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     
     // MARK: Methods
     
-    open func layoutView() {
+    open func layoutViews() {
         if let v = _describableView {
             let rect = v.convertFrame(to: self.view)
             if (rect != CGRect.zero) {
@@ -117,15 +109,15 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
         _tutorialDescriptions = descriptions
     }
     
-    open func validate(forAttributes attr: Dictionary<String, Any>) -> Bool {
-        fatalError("validate(:) has not been implemented")
+    open func inValidate() {
+        fatalError("inValidate() has not been implemented, please provide implementation in inheritor")
     }
     
     open func transitionComplete() {
         if (!isInitializedDescribableView) {
             initializeDescribableView()
         } else {
-            layoutView()
+            layoutViews()
         }
     }
     
@@ -138,14 +130,19 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     }
     
     open func deInitializeDescribableView() {
-        for (_, value) in _labels {
-            value.removeFromSuperview()
+        
+        animateAppearanceSubviewsAndLayers(show: false, views: Array(_labels.values), layers: Array(_lines.values)) {
+            for (_, value) in self._labels {
+                value.removeFromSuperview()
+            }
+            for (_, value) in self._lines {
+                value.removeFromSuperlayer()
+            }
+            self._labels.removeAll()
+            self._lines.removeAll()
         }
-        for (_, value) in _lines {
-            value.removeFromSuperlayer()
-        }
-        _labels.removeAll()
-        _lines.removeAll()
+        
+        _blurView.resetTransparentSpot()
     }
     
     open func initializeDescribableView() {
@@ -222,7 +219,8 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
         var range: CGFloat = 0
         
         for v in _describableViewEntities {
-            if (_tutorialDescriptions[v.key]?.descriptionPosition == layout || layout == .any) {
+            if (_tutorialDescriptions[v.key]?.descriptionPosition == layout ||
+                _tutorialDescriptions[v.key]?.descriptionPosition == .any) {
                 if let label = _labels[v.key] {
                     let tutorialDescriprionWidth = _tutorialDescriptions[v.key]?.descriptionWidth ?? tutorialDescriprionDefaultWidth
                     // calculate size of description
@@ -477,18 +475,26 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
         return CGRect(x: _blurView.bounds.origin.x, y: topSafeOffset, width: _blurView.bounds.width, height: _blurView.bounds.height - bottomSafeOffset)
     }
     
-    open func animateSubviews(views: [UIView]) {
+    open func animateAppearanceSubviewsAndLayers(show: Bool, views: [UIView], layers: [CALayer], complete: @escaping () -> ()) {
         if (animateAppearance) {
             UIView.animate(withDuration: animationDuration02, delay: 0, options: [.allowAnimatedContent, .curveEaseInOut], animations: {
                 for v in views {
-                    v.alpha = 1
+                    v.alpha = show ? 1 : 0
+                }
+                for v in layers {
+                    v.isHidden = !show
                 }
             }) { (success) in
+                complete()
             }
         } else {
             for v in views {
-                v.alpha = 1
+                v.alpha = show ? 1 : 0
             }
+            for v in layers {
+                v.isHidden = !show
+            }
+            complete()
         }
     }
 }

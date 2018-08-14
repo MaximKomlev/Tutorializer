@@ -59,8 +59,8 @@ open class TutorialBlurView: UIView {
             return super.frame
         } set (v) {
             super.frame = v
-            _blurEffectView.frame = super.bounds
-            _vibrancyEffectView.frame = super.bounds
+            _blurEffectView.frame = v
+            _vibrancyEffectView.frame = v
             setNeedsLayout()
         }
     }
@@ -81,7 +81,14 @@ open class TutorialBlurView: UIView {
         setNeedsDisplay()
         setNeedsLayout()
     }
-    
+
+    func resetTransparentSpot() {
+        self.layer.mask = nil
+        self.clipsToBounds = true
+        setNeedsDisplay()
+        setNeedsLayout()
+    }
+
     // MARK: Helpers
     
     func blurEffect() -> UIBlurEffect {
