@@ -98,10 +98,10 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
             let rect = v.convertFrame(to: self.view)
             if (rect != CGRect.zero) {
                 _blurView.setTransparentSpot(for: v.shapePath(for: rect))
+                
+                layoutDescriptions(for: v)
+                layoutLines()
             }
-            
-            layoutDescriptions(for: v)
-            layoutLines()
         }
     }
     
@@ -110,7 +110,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     }
     
     open func inValidate() {
-        fatalError("inValidate() has not been implemented, please provide implementation in inheritor")
+        deInitializeDescribableView()
     }
     
     open func transitionComplete() {
@@ -130,17 +130,14 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     }
     
     open func deInitializeDescribableView() {
-        
-        animateAppearanceSubviewsAndLayers(show: false, views: Array(_labels.values), layers: Array(_lines.values)) {
-            for (_, value) in self._labels {
-                value.removeFromSuperview()
-            }
-            for (_, value) in self._lines {
-                value.removeFromSuperlayer()
-            }
-            self._labels.removeAll()
-            self._lines.removeAll()
+        for (_, value) in self._labels {
+            value.removeFromSuperview()
         }
+        for (_, value) in self._lines {
+            value.removeFromSuperlayer()
+        }
+        self._labels.removeAll()
+        self._lines.removeAll()
         
         _blurView.resetTransparentSpot()
     }
@@ -163,6 +160,8 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
                         self?.layoutDescriptions(for: describableView)
                         
                         self?.initializeLines()
+                        
+                        self?.animateAppearanceSubviewsAndLayers(show: true, views: Array(self!._labels.values), layers: Array(self!._lines.values), complete: {})
                     }
                 }
             })
@@ -180,6 +179,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
                 label.numberOfLines = 0
                 label.textAlignment = .left
                 label.attributedText = text
+                label.alpha = 0
                 _labels[key] = label
                 _blurView.addSubview(label)
             }
@@ -424,7 +424,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     
     func initializeLine(key: String, _ labelRect: CGRect, _ targetViewRect: CGRect, _ containerViewRect: CGRect) {
         let layer = CAShapeLayer()
-        layer.opacity = 1
+        layer.isHidden = true
         layer.fillColor = UIColor.white.cgColor
         layer.strokeColor = UIColor.white.cgColor
         layer.lineWidth = 1.0

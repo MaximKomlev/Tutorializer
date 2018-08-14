@@ -170,6 +170,14 @@ open class TutorialNavigationController: UIViewController, TutorialViewDataDeleg
     
     // MARK: UIPageViewControllerDelegate
     
+    open func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
+        for vc in pendingViewControllers {
+            if let tvc = vc as? (UIViewController & TutorialViewProtocol) {
+                tvc.inValidate()
+            }
+        }
+    }
+    
     open func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         let index = currentViewControllerIndex()
         if (index > -1) {
