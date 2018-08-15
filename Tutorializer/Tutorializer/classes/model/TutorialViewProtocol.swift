@@ -22,7 +22,9 @@ import Foundation
 
 @objc public protocol TutorialViewRenewalDelegate: NSObjectProtocol {
     @objc func layoutViews()
-    @objc func inValidate()
+    
+    @objc func initializeDescribableView()
+    @objc func deInitializeDescribableView()
 }
 
 @objc public protocol TutorialViewDataDelegate: NSObjectProtocol {

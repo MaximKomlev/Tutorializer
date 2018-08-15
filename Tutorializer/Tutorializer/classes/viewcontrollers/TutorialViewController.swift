@@ -61,7 +61,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     
     // MARK: Properties
     
-    open var isInitializedDescribableView: Bool {
+    public var isInitializedDescribableView: Bool {
         get {
             return _labels.count > 0
         }
@@ -71,13 +71,13 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     
     // MARK: Properties
     
-    open var tutorialViewId: String? = nil
+    public var tutorialViewId: String? = nil
     
     public weak var tutorialDelegate: TutorialViewDataDelegate? = nil
     
-    open var animateAppearance: Bool = true
+    public var animateAppearance: Bool = true
     
-    open var blurAlpha: CGFloat {
+    public var blurAlpha: CGFloat {
         get {
             return _blurView.blurAlpha
         } set (v) {
@@ -85,63 +85,33 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
         }
     }
     
-    open var tutorialView: UIView {
+    public var tutorialView: UIView {
         get {
             return view
         }
     }
     
     // MARK: Methods
+        
+    open func initializeTutorialDescriptions(_ descriptions: Dictionary<String, DescribableElementInfo>) {
+        _tutorialDescriptions = descriptions
+    }
     
+    open func transitionComplete() {
+    }
+
     open func layoutViews() {
         if let v = _describableView {
             let rect = v.convertFrame(to: self.view)
             if (rect != CGRect.zero) {
                 _blurView.setTransparentSpot(for: v.shapePath(for: rect))
-                
-                layoutDescriptions(for: v)
-                layoutLines()
             }
+            
+            layoutDescriptions(for: v)
+            layoutLines()
         }
     }
-    
-    open func initializeTutorialDescriptions(_ descriptions: Dictionary<String, DescribableElementInfo>) {
-        _tutorialDescriptions = descriptions
-    }
-    
-    open func inValidate() {
-        deInitializeDescribableView()
-    }
-    
-    open func transitionComplete() {
-        if (!isInitializedDescribableView) {
-            initializeDescribableView()
-        } else {
-            layoutViews()
-        }
-    }
-    
-    // MARK: Helpers
-    
-    open func initializeUI() {
-        self.view.backgroundColor = UIColor.clear
-        self.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        self.view.addSubview(_blurView)
-    }
-    
-    open func deInitializeDescribableView() {
-        for (_, value) in self._labels {
-            value.removeFromSuperview()
-        }
-        for (_, value) in self._lines {
-            value.removeFromSuperlayer()
-        }
-        self._labels.removeAll()
-        self._lines.removeAll()
-        
-        _blurView.resetTransparentSpot()
-    }
-    
+
     open func initializeDescribableView() {
         if (self.tutorialDelegate != nil) {
             self.tutorialDelegate?.fetchDescribableElement(for: self, complete: { [weak self] (v) in
@@ -166,6 +136,29 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
                 }
             })
         }
+    }
+
+    open func deInitializeDescribableView() {
+        animateAppearanceSubviewsAndLayers(show: false, views: Array(_labels.values), layers: Array(_lines.values)) {
+            for (_, value) in self._labels {
+                value.removeFromSuperview()
+            }
+            for (_, value) in self._lines {
+                value.removeFromSuperlayer()
+            }
+            self._labels.removeAll()
+            self._lines.removeAll()
+        }
+        
+        _blurView.resetTransparentSpot()
+    }
+    
+    // MARK: Helpers
+    
+    open func initializeUI() {
+        self.view.backgroundColor = UIColor.clear
+        self.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.view.addSubview(_blurView)
     }
     
     func initializeLabelsDescriptions(_ forView: UIView) {

@@ -48,6 +48,7 @@ open class TutorialNavigationController: UIViewController, TutorialViewDataDeleg
         
         let index = currentViewControllerIndex()
         if (index > -1) {
+            _screens[index].initializeDescribableView()
             _screens[index].transitionComplete()
         }
     }
@@ -173,7 +174,7 @@ open class TutorialNavigationController: UIViewController, TutorialViewDataDeleg
     open func pageViewController(_ pageViewController: UIPageViewController, willTransitionTo pendingViewControllers: [UIViewController]) {
         for vc in pendingViewControllers {
             if let tvc = vc as? (UIViewController & TutorialViewProtocol) {
-                tvc.inValidate()
+                tvc.deInitializeDescribableView()
             }
         }
     }
@@ -181,6 +182,7 @@ open class TutorialNavigationController: UIViewController, TutorialViewDataDeleg
     open func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         let index = currentViewControllerIndex()
         if (index > -1) {
+            _screens[index].initializeDescribableView()
             _screens[index].transitionComplete()
             _pager.currentPage = index
         }
