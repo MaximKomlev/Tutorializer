@@ -99,11 +99,11 @@ example of implementation:
 ```swift
 // the method should return view or control, which you want to describe 
 func fetchDescribableElement(for tutorialView: TutorialViewProtocol?, complete: @escaping (UIView?) -> ()) {
-    if (tutorialView?.tutorialViewId == "describable ui control or view identificator 1") {
+    if (tutorialView?.tutorialViewId == "page1") {
         complete(view1)
-    } else if (tutorialView?.tutorialViewId == "describable ui control or view identificator 2") {
+    } else if (tutorialView?.tutorialViewId == "page2") {
         complete(view2)
-    } else if (tutorialView?.tutorialViewId == "describable ui control or view identificator 3") {
+    } else if (tutorialView?.tutorialViewId == "page3") {
         if (_videos.count > 0) {
             UIView.animate(withDuration: 0.5, animations: {
                 self._collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
@@ -141,6 +141,68 @@ func doneButtonClicked(_ tutorialNavigationController: TutorialNavigationControl
 }
 ```
 
+The describable view|control must implement TutorialDescribableViewDelegate: 
+
+```swift
+var tutorialDelegate: TutorialViewRenewalDelegate? { get set }
+
+func getDescribableEntities() -> Dictionary<String, UIView>
+func convertFrame(to view: UIView?) -> CGRect
+func shapePath(for frame: CGRect) -> CGPath
+```
+
+example of implementation:
+
+```swift
+class RUIDescribableSearchBar: RUISearchBar, TutorialDescribableViewDelegate {
+
+    // MARK: View life cycle
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        tutorialDelegate?.layoutViews()
+    }
+
+    // MARK: Properties
+
+    ...
+
+    // MARK: TutorialDescribableViewProtocol
+
+    weak var tutorialDelegate: TutorialViewRenewalDelegate? = nil
+
+    // returns dictionary of view identificator and view|control
+    func getDescribableEntities() -> Dictionary<String, UIView> {
+        var config = Dictionary<String, UIView>()
+        config["describable ui control or view identificator 1"] = view1
+        config["describable ui control or view identificator 2"] = view2
+        config["describable ui control or view identificator 3"] = view3
+        return config
+    }
+
+    // returns coordinates of area associated with describable view according to tutorial view controller
+    func convertFrame(to view: UIView?) -> CGRect {
+        if let parent = self.superview,
+            let coordinateSpace = view?.window?.screen.coordinateSpace {
+            return parent.convert(self.frame, to: coordinateSpace)
+        }
+        return CGRect.zero
+    }
+
+    // returns shape of area associated with describable view
+    func shapePath(for frame: CGRect) -> CGPath {
+        return CGPath(rect: frame, transform: nil)
+    }
+
+    // MARK: Helpers
+
+    ...
+}
+```
+
+So, basicaly, the TutorialViewController is responsible for layouting descriptions (using custom algorithm) and drawing shape of area associated with describable view, TutorialNavigationController is responsible for managing multiple tutorial controllers (pages).
+For more complicated logic you can derive Tutorial View Controller and add own behaviour.
 
 ## License
 
