@@ -11,7 +11,7 @@ Tutorial framework helps to describe behavior of UI based on real view.
 
 - **Landscape**
 <p align="center">
-<img src="./screenshots/landscape.gif" width="533"/>
+<img src="./screenshots/landscape.gif" width="812"/>
 </p>
 
 ## License
