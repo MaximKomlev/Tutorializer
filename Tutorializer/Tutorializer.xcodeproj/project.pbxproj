@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		BC58544821020D8B00976D0F /* TutorialSwipeableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC58544721020D8B00976D0F /* TutorialSwipeableViewController.swift */; };
 		BC58544B2103557F00976D0F /* TutorialNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC58544A2103557F00976D0F /* TutorialNavigationController.swift */; };
+		BC5B56CD2123CAAD000594D9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = BC5B56CB2123CAAD000594D9 /* LICENSE */; };
+		BC5B56CE2123CAAD000594D9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = BC5B56CC2123CAAD000594D9 /* README.md */; };
 		BC9936D620F770C7001527CD /* Tutorializer.h in Headers */ = {isa = PBXBuildFile; fileRef = BC9936D420F770C7001527CD /* Tutorializer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BC9936E520F9A65B001527CD /* TutorialSwipeInteractiveTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9936E420F9A65B001527CD /* TutorialSwipeInteractiveTransition.swift */; };
 		BC9936E720F9A84D001527CD /* TutorialAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC9936E620F9A84D001527CD /* TutorialAnimatedTransitioning.swift */; };
@@ -26,6 +28,8 @@
 /* Begin PBXFileReference section */
 		BC58544721020D8B00976D0F /* TutorialSwipeableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSwipeableViewController.swift; sourceTree = "<group>"; };
 		BC58544A2103557F00976D0F /* TutorialNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialNavigationController.swift; sourceTree = "<group>"; };
+		BC5B56CB2123CAAD000594D9 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../../../LICENSE; sourceTree = "<group>"; };
+		BC5B56CC2123CAAD000594D9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../../README.md; sourceTree = "<group>"; };
 		BC9936D120F770C7001527CD /* Tutorializer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tutorializer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC9936D420F770C7001527CD /* Tutorializer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tutorializer.h; sourceTree = "<group>"; };
 		BC9936D520F770C7001527CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -95,6 +99,8 @@
 		BC9936DD20F772E1001527CD /* resources */ = {
 			isa = PBXGroup;
 			children = (
+				BC5B56CB2123CAAD000594D9 /* LICENSE */,
+				BC5B56CC2123CAAD000594D9 /* README.md */,
 				BC9936D520F770C7001527CD /* Info.plist */,
 			);
 			path = resources;
@@ -224,6 +230,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC5B56CE2123CAAD000594D9 /* README.md in Resources */,
+				BC5B56CD2123CAAD000594D9 /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
