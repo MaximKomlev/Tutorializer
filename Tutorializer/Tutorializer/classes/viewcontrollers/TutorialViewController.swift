@@ -38,10 +38,11 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     }
     
     deinit {
-        self.tutorialDelegate = nil
+        animateAppearance = false
+        tutorialDelegate = nil
         
         _blurView.removeFromSuperview()
-        self.view.removeFromSuperview()
+        view.removeFromSuperview()
         
         _describableView = nil
         
