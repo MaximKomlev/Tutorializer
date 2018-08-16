@@ -38,7 +38,6 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     }
     
     deinit {
-        animateAppearance = false
         tutorialDelegate = nil
         
         _blurView.removeFromSuperview()
@@ -132,7 +131,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
                         
                         self?.initializeLines()
                         
-                        self?.animateAppearanceSubviewsAndLayers(show: true, views: Array(self!._labels.values), layers: Array(self!._lines.values), complete: {})
+                        self?.showSubviewsAndLayers(show: true, animated: self!.animateAppearance, views: Array(self!._labels.values), layers: Array(self!._lines.values), complete: {})
                     }
                 }
             })
@@ -140,7 +139,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     }
 
     open func deInitializeDescribableView() {
-        animateAppearanceSubviewsAndLayers(show: false, views: Array(_labels.values), layers: Array(_lines.values)) {
+        showSubviewsAndLayers(show: false, animated: false, views: Array(_labels.values), layers: Array(_lines.values)) {
             for (_, value) in self._labels {
                 value.removeFromSuperview()
             }
@@ -469,8 +468,8 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
         return CGRect(x: _blurView.bounds.origin.x, y: topSafeOffset, width: _blurView.bounds.width, height: _blurView.bounds.height - bottomSafeOffset)
     }
     
-    open func animateAppearanceSubviewsAndLayers(show: Bool, views: [UIView], layers: [CALayer], complete: @escaping () -> ()) {
-        if (animateAppearance) {
+    open func showSubviewsAndLayers(show: Bool, animated: Bool, views: [UIView], layers: [CALayer], complete: @escaping () -> ()) {
+        if (animated) {
             UIView.animate(withDuration: animationDuration02, delay: 0, options: [.allowAnimatedContent, .curveEaseInOut], animations: {
                 for v in views {
                     v.alpha = show ? 1 : 0
