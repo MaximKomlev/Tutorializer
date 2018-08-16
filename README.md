@@ -154,7 +154,7 @@ func shapePath(for frame: CGRect) -> CGPath
 example of implementation:
 
 ```swift
-class RUIDescribableSearchBar: RUISearchBar, TutorialDescribableViewDelegate {
+class UIDescribableBasicView: UIBasicView, TutorialDescribableViewDelegate {
 
     // MARK: View life cycle
 
