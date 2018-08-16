@@ -92,17 +92,12 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     }
     
     // MARK: Methods
-    
+        
     open func initializeTutorialDescriptions(_ descriptions: Dictionary<String, DescribableElementInfo>) {
         _tutorialDescriptions = descriptions
     }
     
     open func transitionComplete() {
-        if (!isInitializedDescribableView) {
-            initializeDescribableView()
-        } else {
-            layoutViews()
-        }
     }
 
     open func layoutViews() {
@@ -135,6 +130,8 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
                         self?.layoutDescriptions(for: describableView)
                         
                         self?.initializeLines()
+                        
+                        self?.animateAppearanceSubviewsAndLayers(show: true, views: Array(self!._labels.values), layers: Array(self!._lines.values), complete: {})
                     }
                 }
             })
@@ -175,6 +172,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
                 label.numberOfLines = 0
                 label.textAlignment = .left
                 label.attributedText = text
+                label.alpha = 0
                 _labels[key] = label
                 _blurView.addSubview(label)
             }
@@ -419,7 +417,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     
     func initializeLine(key: String, _ labelRect: CGRect, _ targetViewRect: CGRect, _ containerViewRect: CGRect) {
         let layer = CAShapeLayer()
-        layer.opacity = 1
+        layer.isHidden = true
         layer.fillColor = UIColor.white.cgColor
         layer.strokeColor = UIColor.white.cgColor
         layer.lineWidth = 1.0
