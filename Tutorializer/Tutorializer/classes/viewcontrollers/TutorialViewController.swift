@@ -115,23 +115,23 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     open func initializeDescribableView() {
         if (self.tutorialDelegate != nil) {
             self.tutorialDelegate?.fetchDescribableElement(for: self, complete: { [weak self] (v) in
-                if let describableView = v as? UIView & TutorialDescribableViewDelegate, self != nil {
+                if let describableView = v as? UIView & TutorialDescribableViewDelegate, let this = self {
                     describableView.tutorialDelegate = self
-                    self?._describableView = describableView
-                    let rect = describableView.convertFrame(to: self!.view)
+                    this._describableView = describableView
+                    let rect = describableView.convertFrame(to: this.view)
                     if (rect != CGRect.zero) {
-                        self?._blurView.setTransparentSpot(for: describableView.shapePath(for: rect))
+                        this._blurView.setTransparentSpot(for: describableView.shapePath(for: rect))
                         
                         // sort tutorialized sub elements by x
-                        self?._describableViewEntities = self!.sortElementsByCoordinates(describableView)
+                        this._describableViewEntities = this.sortElementsByCoordinates(describableView)
                         
-                        self?.initializeLabelsDescriptions(describableView)
+                        this.initializeLabelsDescriptions(describableView)
                         
-                        self?.layoutDescriptions(for: describableView)
+                        this.layoutDescriptions(for: describableView)
                         
-                        self?.initializeLines()
+                        this.initializeLines()
                         
-                        self?.showSubviewsAndLayers(show: true, animated: self!.animateAppearance, views: Array(self!._labels.values), layers: Array(self!._lines.values), complete: {})
+                        this.showSubviewsAndLayers(show: true, animated: this.animateAppearance, views: Array(this._labels.values), layers: Array(this._lines.values), complete: {})
                     }
                 }
             })
