@@ -208,7 +208,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
     
     func arrangeDescriptions(by layout: DescribableElementLayout) -> [(key: String, index: Int, label: UILabel, directionLeft: Bool)] {
         
-        var leftViews: [(key: String, index: Int, label: UILabel, directionLeft: Bool)] = [] // sorted by x descriptions with z-index
+        var descViews: [(key: String, index: Int, label: UILabel, directionLeft: Bool)] = [] // sorted by x descriptions with z-index
         var range: CGFloat = 0
         
         for v in _describableViewEntities {
@@ -236,16 +236,16 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
                                 }
                                 
                                 // calculate z-index
-                                if (leftViews.count == 0) {
-                                    leftViews.append((key: v.key, index: 0, label: label, directionLeft: directionLeft))
+                                if (descViews.count == 0) {
+                                    descViews.append((key: v.key, index: 0, label: label, directionLeft: directionLeft))
                                     range = label.frame.origin.x + label.frame.width
                                 } else {
-                                    let prev = leftViews[leftViews.count - 1]
+                                    let prev = descViews[descViews.count - 1]
                                     let nextX = label.frame.origin.x
                                     if (range + 3 * leftRightMargin >= nextX) {
-                                        leftViews.append((key: v.key, index: prev.index + 1, label: label, directionLeft: directionLeft))
+                                        descViews.append((key: v.key, index: prev.index + 1, label: label, directionLeft: directionLeft))
                                     } else {
-                                        leftViews.append((key: v.key, index: 0, label: label, directionLeft: directionLeft))
+                                        descViews.append((key: v.key, index: 0, label: label, directionLeft: directionLeft))
                                         range = label.frame.origin.x + label.frame.width
                                     }
                                 }
@@ -256,7 +256,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
             }
         }
         
-        return leftViews
+        return descViews
     }
     
     @discardableResult func layoutTopDescriptions(for configs: [(key: String, index: Int, label: UILabel, directionLeft: Bool)]) -> Bool {
@@ -269,7 +269,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
                 var rightIdx = -1
                 
                 var idx = configs.count - 1
-                while(idx >= 0) {
+                while (idx >= 0) {
                     let config = configs[idx]
                     if (config.directionLeft) {
                         y = y - config.label.frame.height
@@ -295,7 +295,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
                     }
                     
                     idx = rightIdx
-                    while(idx < configs.count) {
+                    while (idx < configs.count) {
                         let config = configs[idx]
                         if (config.index == 0 && idx > rightIdx) { // reset
                             y = rect.origin.y - topBottomMargin
@@ -324,7 +324,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
                 var rightIdx = -1
                 
                 var idx = configs.count - 1
-                while(idx >= 0) {
+                while (idx >= 0) {
                     let config = configs[idx]
                     if (config.directionLeft) {
                         config.label.frame.origin.y = y
@@ -349,7 +349,7 @@ open class TutorialViewController: UIViewController, TutorialViewProtocol {
                     }
                     
                     idx = rightIdx
-                    while(idx < configs.count) {
+                    while (idx < configs.count) {
                         let config = configs[idx]
                         if (config.index == 0 && idx > rightIdx) { // reset
                             y = rect.origin.y + rect.height + topBottomMargin
