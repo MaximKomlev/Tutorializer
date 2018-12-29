@@ -56,9 +56,9 @@ let sysPurple = UIColor(red: 88 / 255, green: 86 / 255, blue: 214 / 255, alpha: 
 let sysPink = UIColor(red: 255 / 255, green: 45 / 255, blue: 85 / 255, alpha: 1)
 let sysGrey = UIColor(red: 100 / 255, green: 100 / 255, blue: 100 / 255, alpha: 1)
 let sysLightGrey = UIColor(red: 153 / 255, green: 153 / 255, blue: 153 / 255, alpha: 1)
-//let sysDarkBlue = UIColor(red: 23 / 255, green: 25 / 255, blue: 145 / 255, alpha: 1)
+//let customDarkBlue = UIColor(red: 23 / 255, green: 25 / 255, blue: 145 / 255, alpha: 1)
 let sysDarkGreen = UIColor(red: 0 / 255, green: 135 / 255, blue: 31 / 255, alpha: 1)
-let sysDarkBlue = UIColor(red: 53 / 255, green: 56 / 255, blue: 173 / 255, alpha: 1)
+let customDarkBlue = UIColor(red: 53 / 255, green: 56 / 255, blue: 173 / 255, alpha: 1)
 
 let facebookDefaultBlue = UIColor(red: 59 / 255, green: 89 / 255, blue: 152 / 255, alpha: 1)
 let twitterDefaultBlue = UIColor(red: 0 / 255, green: 172 / 255, blue: 237 / 255, alpha: 1)
