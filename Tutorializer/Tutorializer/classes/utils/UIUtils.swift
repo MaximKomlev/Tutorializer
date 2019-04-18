@@ -139,16 +139,16 @@ class AttributedLabelHelper: NSObject {
         // assign attributes
         for i in 0..<(strings?.count)! {
             // Paragraph Style
-            if (paragraphStyles!.count > 0) {
-                text.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyles!.count > i ? paragraphStyles![i] : paragraphStyles![paragraphStyles!.count - 1], range: NSMakeRange(offset, strings[i].count))
+            if let paragraphStyles = paragraphStyles, paragraphStyles.count > 0 {
+                text.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyles.count > i ? paragraphStyles[i] : paragraphStyles[paragraphStyles.count - 1], range: NSMakeRange(offset, strings[i].count))
             }
             // Font
-            if (fonts!.count > 0) {
-                text.addAttribute(NSAttributedStringKey.font, value: fonts!.count > i ? fonts[i] : fonts[fonts!.count - 1], range: NSMakeRange(offset, strings[i].count))
+            if let fonts = fonts, fonts.count > 0 {
+                text.addAttribute(NSAttributedStringKey.font, value: fonts.count > i ? fonts[i] : fonts[fonts.count - 1], range: NSMakeRange(offset, strings[i].count))
             }
             // Color
-            if (colors!.count > 0) {
-                text.addAttribute(NSAttributedStringKey.foregroundColor, value: colors!.count > i ? colors![i] : colors![colors!.count - 1], range: NSMakeRange(offset, strings[i].count))
+            if let colors = colors, colors.count > 0 {
+                text.addAttribute(NSAttributedStringKey.foregroundColor, value: colors.count > i ? colors[i] : colors[colors.count - 1], range: NSMakeRange(offset, strings[i].count))
             }
             
             offset += strings[i].count
